@@ -23,6 +23,20 @@ async function run(){
         await client.connect();
         const myTaskCollection =client.db('MyToDoApps').collection('myTask');
     
+//    add a task 
+app.post('/task',async (req,res)=>{
+    const myTask=req.body;
+   
+    const result =await myTaskCollection.insertOne(myTask);
+    res.send(result);
+ })
+//  get all task 
+ app.get('/task',async(req,res)=>{
+     const query={}
+     const cursor=myTaskCollection.find(query);
+     const result=await cursor.toArray();
+     res.send(result);
+ })
 
  
     }catch{
