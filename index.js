@@ -37,14 +37,36 @@ app.post('/task',async (req,res)=>{
      const result=await cursor.toArray();
      res.send(result);
  })
+//  get checked  task 
+ app.get('/checkedTask',async(req,res)=>{
+     const query={check:'yes'}
+     const cursor=myTaskCollection.find(query);
+     const result=await cursor.toArray();
+     res.send(result);
+ })
+
+
+
 //    delete a task 
 app.delete('/task/:id', async (req, res) => {
     const id = req.params.id;
     const query = { _id: ObjectId(id) };
     const result = await myTaskCollection.deleteOne(query);
-
     res.send(result);
 });
+// update task
+app.put('/task/:_id',async (req,res)=>{
+    const id = req.params._id;
+    const updatedTask=req.body;
+    const filter = {_id:ObjectId(id)};
+    const option ={upsert :true};
+    const updatedDoc={
+        $set: updatedTask   
+    };
+    const result = await myTaskCollection.updateOne(filter,updatedDoc,option);
+    res.send(result)
+});
+
  
     }catch{
  
