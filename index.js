@@ -37,7 +37,14 @@ app.post('/task',async (req,res)=>{
      const result=await cursor.toArray();
      res.send(result);
  })
+//    delete a task 
+app.delete('/task/:id', async (req, res) => {
+    const id = req.params.id;
+    const query = { _id: ObjectId(id) };
+    const result = await myTaskCollection.deleteOne(query);
 
+    res.send(result);
+});
  
     }catch{
  
